@@ -1,17 +1,27 @@
-# importing necessary modules
-import pandas as pd
+# # importing necessary modules
 import math
+from function_inventory import DataframeFunctions
+from loss_function import squared_error
 
-df_test = pd.read_csv("data/ideal.csv")
-df_train = pd.read_csv("data/train.csv")
-df_ideal_fun = pd.read_csv("data/ideal.csv")
 
-# print(df_test.head())
+if __name__ == '__main__':
+    df_test = "data/test.csv"
+    df_train = "data/train.csv"
+    df_ideal_fun = "data/ideal.csv"
 
-class parse_csv:
-    def __init__(self) -> None:
-        """
+train_functions = DataframeFunctions(df_test)
+ideal_functions = DataframeFunctions(df_ideal_fun)
+
+# print(train_functions.df_dict)
+print(ideal_functions.df_dict['DataFrame for y50'])
+
+print(squared_error(ideal_functions.df_dict['DataFrame for y50'],ideal_functions.df_dict['DataFrame for y10']))
+
+
+
+
+
+           
+            
         
-        """
-        pass
 
