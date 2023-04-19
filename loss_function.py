@@ -14,13 +14,12 @@ def squared_error(first_df, second_df):
 def minimise_loss(training_df,ideal_fun_df,loss_function):
     function_with_smallest_error = None
     smallest_error = None
-    for function in ideal_fun_df:
-        error = loss_function(training_df, function)
+    for function in ideal_fun_df.df_dict.keys():
+        error = loss_function(training_df, ideal_fun_df.df_dict[function])
         if ((smallest_error == None) or error < smallest_error):
             smallest_error = error
             function_with_smallest_error = function
 
-    ideal_function = IdealFunction(function=function_with_smallest_error, training_function=training_function,
-                          error=smallest_error)
+    ideal_function = function_with_smallest_error
     return ideal_function
 
