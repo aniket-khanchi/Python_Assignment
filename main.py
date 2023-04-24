@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
 train_functions = DataframeFunctions(df_train)
 ideal_functions = DataframeFunctions(df_ideal_fun)
-
+test_functions = DataframeFunctions(df_test)
 # print(train_functions.df_dict)
 # print(ideal_functions.df_dict['DataFrame for y50'])
 ideal_fun_list = []
@@ -20,7 +20,20 @@ for train_fun in train_functions.df_dict.keys():
     ideal_fun_list.append(ideal_fun)
 
     
-print(ideal_fun_list)
+# print(ideal_fun_list)
+
+test_fun = test_functions.df_dict["DataFrame for y"]
+# print(test_fun)
+pint_ls = []
+for index, row in test_fun.iterrows():
+    # print( pint_ls.append(row["x"],row['y']))
+    pint_ls.append(row)
+
+
+
+print(pint_ls[0]["x"])
+
+
 
 
 
