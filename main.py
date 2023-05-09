@@ -1,10 +1,13 @@
-# # importing necessary modules
+#importing necessary modules
+
 import math
 from function_inventory import DataframeFunctions
 from loss_function import squared_error, minimise_loss
 
 
 if __name__ == '__main__':
+
+    # define the path of the files required in this project
     df_test = "data/test.csv"
     df_train = "data/train.csv"
     df_ideal_fun = "data/ideal.csv"
