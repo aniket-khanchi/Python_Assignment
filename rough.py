@@ -44,3 +44,5 @@ for col, func in func_dict.items():
         result = func(x_val, y_val)
         print(f"({x_val}, {y_val}) -> {result}")
     print()
+
+

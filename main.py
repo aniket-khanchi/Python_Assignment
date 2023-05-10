@@ -1,7 +1,7 @@
 # # importing necessary modules
 import math
 from function_inventory import DataframeFunctions
-from loss_function import squared_error, minimise_loss
+from loss_function import squared_error, minimise_loss, find_classification
 
 
 if __name__ == '__main__':
@@ -24,14 +24,18 @@ for train_fun in train_functions.df_dict.keys():
 
 test_fun = test_functions.df_dict["DataFrame for y"]
 # print(test_fun)
-pint_ls = []
+pint_ls_ideal_fn = []
 for index, row in test_fun.iterrows():
     # print( pint_ls.append(row["x"],row['y']))
-    pint_ls.append(row)
+    # print((row["x"],row["y"]))
+    point = (row["x"],row["y"])
+    ideal_function, delta_y = find_classification(point=point, ideal_functions=ideal_fun_list)
+    result = {"point": point, "classification": ideal_function, "delta_y": delta_y}
+    pint_ls_ideal_fn.append(result)
 
 
 
-print(pint_ls[0]["x"])
+# print(pint_ls[0]["x"])
 
 
 
