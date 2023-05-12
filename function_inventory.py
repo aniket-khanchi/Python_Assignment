@@ -1,5 +1,5 @@
 import pandas as pd
-
+import sys
 
 class DataframeFunction:
     
@@ -20,6 +20,16 @@ class DataframeFunction:
         except Exception as e:
             # Handle any other exceptions that may occur during CSV file reading
             print(f"An error occurred: {e}")
+
+    
+    def dict_to_dataframe(self,my_dict):
+        try:
+            df = pd.DataFrame(my_dict)
+            return df
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
+
     
     
 
