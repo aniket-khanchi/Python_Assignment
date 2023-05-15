@@ -1,44 +1,81 @@
 #importing necessary modules
 
 import math
-from function_inventory import DataframeFunctions
-from loss_function import squared_error, minimise_loss, find_classification
+import pandas as pd
+from function_inventory import DataframeFunction
+from regression import Regression
+from data_visualization import Graph
+import sys
+# from loss_function import squared_error, minimise_loss, find_classification
 
 
 if __name__ == '__main__':
 
-    # define the path of the files required in this project
-    df_test = "data/test.csv"
-    df_train = "data/train.csv"
-    df_ideal_fun = "data/ideal.csv"
+    #Define the paths of input & output files
+    ideal_csv = "data\\ideal.csv"
+    test_csv = "data\\test.csv"
+    train_csv = "data\\train.csv"
 
-train_functions = DataframeFunctions(df_train)
-ideal_functions = DataframeFunctions(df_ideal_fun)
-test_functions = DataframeFunctions(df_test)
-# print(train_functions.df_dict)
-# print(ideal_functions.df_dict['DataFrame for y50'])
-ideal_fun_list = []
-for train_fun in train_functions.df_dict.keys():
-    ideal_fun = minimise_loss(train_functions.df_dict[train_fun],ideal_functions,squared_error)
-    ideal_fun_list.append(ideal_fun)
+
+    test = DataframeFunction(test_csv)
+    train = DataframeFunction(train_csv)
+    ideal = DataframeFunction(ideal_csv)
+
+    # print(line_eqn_para(train._df).head())
+    Reg = Regression(train=train._df,test=test._df,ideal=ideal._df)
+    chart = Graph(train=train._df,test=test._df,ideal=ideal._df)
+
+    # for columns in train._df.columns:
+    #     if columns != 'x':
+    #         tmp_df = pd.DataFrame()
+    #         tmp_df['x'] = train._df['x']
+    #         tmp_df['y'] = train._df[columns]
+    #         chart.line_chart(tmp_df)
+            # print(tmp_df)
 
     
-# print(ideal_fun_list)
-
-test_fun = test_functions.df_dict["DataFrame for y"]
-# print(test_fun)
-pint_ls_ideal_fn = []
-for index, row in test_fun.iterrows():
-    # print( pint_ls.append(row["x"],row['y']))
-    # print((row["x"],row["y"]))
-    point = (row["x"],row["y"])
-    ideal_function, delta_y = find_classification(point=point, ideal_functions=ideal_fun_list)
-    result = {"point": point, "classification": ideal_function, "delta_y": delta_y}
-    pint_ls_ideal_fn.append(result)
 
 
+    
+    # dic = Reg.least_squares(ideal._df,train._df)
+    # print(line_equ_train_data_df)
+    
+    
+    # best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
+    line_equ_train_data_df = Reg.line_eqn_para(train._df)
+    line_equ_train_data_dict = line_equ_train_data_df.to_dict()
+    # line_equ_train_data_df = Reg.line_eqn_para(train._df)
+    train_chart_df = chart.train_line_chart(train._df,line_equ_train_data_dict)
+    
+    sys.exit()
+    # print(best_fit_line_dict)
+    # {'y1': {'y42': 0.3580520323154257}, 'y2': {'y44': 0.02840899369639279}, 'y3': {'y21': 1209.5656806100142}, 'y4': {'y3': 0.7011397050168394}}
+   
+    # calculate the max deviation for ideal dataset with respect to train dataset
+    max_deviation_train_ideal_dict = Reg.max_deviation_train_ideal_data(best_fit_line_dict,line_equ_train_data_dict)
+    # print(max_deviation_train_ideal_dict)
+    # {'y1': {'y42': 0.8249}, 'y2': {'y44': 0.0764}, 'y3': {'y21': 4514.0375}, 'y4': {'y3': 1.5463}}
+    #validate the test data with in range of max deviation
+    map_test_dataset_dict = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
+    print(map_test_dataset_dict)
+        #Map the test data in chart
+        # self.chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict,mapping_chart_save_path)
 
-# print(pint_ls[0]["x"])
+
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
 
 
 
