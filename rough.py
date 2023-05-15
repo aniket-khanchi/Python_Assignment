@@ -46,22 +46,57 @@
 #     print()
 
 
-import pandas as pd
+# import pandas as pd
 
-# create sample dataframes
-df1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [10, 20, 30, 40, 50]})
-df2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [12, 18, 32, 41, 52]})
+# # create sample dataframes
+# df1 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [10, 20, 30, 40, 50]})
+# df2 = pd.DataFrame({'x': [1, 2, 3, 4, 5], 'y': [12, 18, 32, 41, 52]})
 
-# merge dataframes on x value
-merged_df = pd.merge(df1, df2, on='x')
+# # merge dataframes on x value
+# merged_df = pd.merge(df1, df2, on='x')
 
-# calculate difference between y values
-merged_df['diff'] = merged_df['y_x'] - merged_df['y_y']
+# # calculate difference between y values
+# merged_df['diff'] = merged_df['y_x'] - merged_df['y_y']
 
-# take absolute value of difference
-merged_df['abs_diff'] = abs(merged_df['diff'])
+# # take absolute value of difference
+# merged_df['abs_diff'] = abs(merged_df['diff'])
 
-# find maximum absolute difference
-max_diff = merged_df['abs_diff'].max()
-print(merged_df)
-print(max_diff)
+# # find maximum absolute difference
+# max_diff = merged_df['abs_diff'].max()
+# print(merged_df)
+# print(max_diff)
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+# # Example data
+# x = np.array([1, 2, 3, 4, 5])
+# y = np.array([2, 3, 5, 4, 6])
+
+# # Calculate least squares line
+# m, b = np.polyfit(x, y, 1)
+
+# # Plot data and least squares line
+# plt.scatter(x, y)
+# plt.plot(x, m*x + b, color='red')
+# plt.show()
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+import mpld3
+
+# Example data
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2, 3, 5, 4, 6])
+
+# Calculate least squares line
+m, b = np.polyfit(x, y, 1)
+
+# Plot data and least squares line
+plt.scatter(x, y)
+plt.plot(x, m*x + b, color='red')
+
+# Convert plot to HTML
+html = mpld3.fig_to_html(plt.gcf())
+with open('plot.html', 'w') as f:
+    f.write(html)

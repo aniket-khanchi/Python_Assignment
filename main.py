@@ -4,6 +4,8 @@ import math
 import pandas as pd
 from function_inventory import DataframeFunction
 from regression import Regression
+from data_visualization import Graph
+import sys
 # from loss_function import squared_error, minimise_loss, find_classification
 
 
@@ -21,10 +23,31 @@ if __name__ == '__main__':
 
     # print(line_eqn_para(train._df).head())
     Reg = Regression(train=train._df,test=test._df,ideal=ideal._df)
-    dic = Reg.least_squares(ideal._df,train._df)
-    best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
+    chart = Graph(train=train._df,test=test._df,ideal=ideal._df)
+
+    # for columns in train._df.columns:
+    #     if columns != 'x':
+    #         tmp_df = pd.DataFrame()
+    #         tmp_df['x'] = train._df['x']
+    #         tmp_df['y'] = train._df[columns]
+    #         chart.line_chart(tmp_df)
+            # print(tmp_df)
+
+    
+
+
+    
+    # dic = Reg.least_squares(ideal._df,train._df)
+    # print(line_equ_train_data_df)
+    
+    
+    # best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
     line_equ_train_data_df = Reg.line_eqn_para(train._df)
     line_equ_train_data_dict = line_equ_train_data_df.to_dict()
+    # line_equ_train_data_df = Reg.line_eqn_para(train._df)
+    train_chart_df = chart.train_line_chart(train._df,line_equ_train_data_dict)
+    
+    sys.exit()
     # print(best_fit_line_dict)
     # {'y1': {'y42': 0.3580520323154257}, 'y2': {'y44': 0.02840899369639279}, 'y3': {'y21': 1209.5656806100142}, 'y4': {'y3': 0.7011397050168394}}
    
