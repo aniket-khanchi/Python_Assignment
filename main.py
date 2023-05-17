@@ -37,20 +37,30 @@ if __name__ == '__main__':
 
 
     
-    # dic = Reg.least_squares(ideal._df,train._df)
+    dic = Reg.least_squares(ideal._df,train._df)
     # print(line_equ_train_data_df)
     
     
-    # best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
+    best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
     line_equ_train_data_df = Reg.line_eqn_para(train._df)
     line_equ_train_data_dict = line_equ_train_data_df.to_dict()
-    # line_equ_train_data_df = Reg.line_eqn_para(train._df)
-    train_chart_df = chart.train_line_chart(train._df,line_equ_train_data_dict)
-    
+    line_qeu_ideal_data_df = Reg.line_eqn_para(ideal._df)
+    line_equ_ideal_data_dict = line_qeu_ideal_data_df.to_dict()
+    print(line_equ_ideal_data_dict)
+    # sys.exit()
+    train_chart_df = chart.line_chart(train._df,line_equ_train_data_dict,'train')
+    ideal_fn_df  =  pd.DataFrame()
+    ideal_fn_df['x'] = ideal._df['x']
+    for column in best_fit_line_dict:
+        first_key = next(iter(best_fit_line_dict[column]))
+        print(first_key)
+        ideal_fn_df[first_key] = ideal._df[first_key]
+    print(ideal_fn_df)
+    ideal_chart_df = chart.line_chart(ideal_fn_df,line_equ_ideal_data_dict,'ideal')
     sys.exit()
     # print(best_fit_line_dict)
     # {'y1': {'y42': 0.3580520323154257}, 'y2': {'y44': 0.02840899369639279}, 'y3': {'y21': 1209.5656806100142}, 'y4': {'y3': 0.7011397050168394}}
-   
+    sys.exit()
     # calculate the max deviation for ideal dataset with respect to train dataset
     max_deviation_train_ideal_dict = Reg.max_deviation_train_ideal_data(best_fit_line_dict,line_equ_train_data_dict)
     # print(max_deviation_train_ideal_dict)
