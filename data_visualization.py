@@ -43,8 +43,45 @@ class Graph:
         print(chart_filename)
         #save html file
         output_file(filename = chart_filename)
+        # save(grid)
+
+    
+    def min_deviation_chart(self,train_dataframe,train_line_equation_para_dict,ideal_dataframe,ideal_line_equation_para_dict):
+        # Create individual plots
+        min_dev_plots = []
+ 
+        for train_column,ideal_column in zip(train_dataframe.columns,ideal_dataframe.columns):
+            if train_column and ideal_column != 'x':
+                
+                train_tmp_df = pd.DataFrame()
+                train_tmp_df['x'] = train_dataframe['x']
+                train_tmp_df['y'] = train_dataframe[train_column]
+                slope = train_line_equation_para_dict[train_column]['Slope']
+                intercept = train_line_equation_para_dict[train_column]['Intercept']
+                train_tmp_df['y_predicted'] = (train_dataframe['x'] * slope) + intercept
+                
+                ideal_tmp_df = pd.DataFrame()
+                ideal_tmp_df['x'] = ideal_dataframe['x']
+                ideal_tmp_df['y'] = ideal_dataframe[ideal_column]
+                slope = ideal_line_equation_para_dict[ideal_column]['Slope']
+                intercept = ideal_line_equation_para_dict[ideal_column]['Intercept']
+                ideal_tmp_df['y_predicted'] = (ideal_dataframe['x'] * slope) + intercept
+                
+                p = figure(title=f'Plot train_{train_column} vs ideal_{ideal_column}', width=500, height=350)
+                
+                p.scatter(train_tmp_df['x'], train_tmp_df['y'], marker='square', size=8, line_color='blue')
+                p.scatter(ideal_tmp_df['x'], ideal_tmp_df['y'], marker='circle', size=8, line_color='yellow')
+
+                min_dev_plots.append(p)
+
+        grid = gridplot([[min_dev_plots[0], min_dev_plots[1]], [min_dev_plots[2], min_dev_plots[3]]])
+
+        # create name for save html file
+        chart_filename = "output/"+"min_dev.html"
+
+        #save html file
+        output_file(filename = chart_filename)
         save(grid)
-        
 
                     
         

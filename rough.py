@@ -188,30 +188,68 @@
 # # Show the grid layout
 # show(grid)
 
-from bokeh.plotting import figure, show
+# from bokeh.plotting import figure, show
+# import numpy as np
+
+# # Define the functions
+# def f1(x):
+#     return np.sin(x)
+
+# def f2(x):
+#     return np.cos(x)
+
+# # Define the range of x values
+# x = np.linspace(0, 2*np.pi, 100)
+
+# # Calculate the absolute difference between the functions at each x value
+# deviation = np.abs(f1(x) - f2(x))
+
+# # Create a Bokeh figure
+# p = figure(title='Minimum Deviation', x_axis_label='x', y_axis_label='Deviation')
+
+# # Add a line plot for the deviation
+# p.line(x, deviation, line_width=2)
+
+# # Show the Bokeh figure
+# show(p)
+
 import numpy as np
+from bokeh.plotting import figure, show
+from bokeh.io import output_notebook
 
-# Define the functions
-def f1(x):
-    return np.sin(x)
+def minimum_deviation(x, y1, y2):
+    # Convert lists to NumPy arrays
+    y1 = np.array(y1)
+    y2 = np.array(y2)
+    
+    # Calculate the absolute difference between y1 and y2
+    deviation = np.abs(y1 - y2)
+    
+    # Find the minimum deviation for each x value
+    min_deviation = np.min(deviation)
+    
+    return min_deviation
 
-def f2(x):
-    return np.cos(x)
+# Example data
+x = [1, 2, 3, 4, 5]  # x-axis values
+y1 = [1, 4, 9, 16, 25]  # y-axis values for function 1
+y2 = [2, 3, 8, 15, 24]  # y-axis values for function 2
 
-# Define the range of x values
-x = np.linspace(0, 2*np.pi, 100)
+# Calculate the minimum deviation
+min_deviation = minimum_deviation(x, y1, y2)
 
-# Calculate the absolute difference between the functions at each x value
-deviation = np.abs(f1(x) - f2(x))
+# Create a figure
+p = figure(title='Minimum Deviation Graph', x_axis_label='x', y_axis_label='Minimum Deviation')
 
-# Create a Bokeh figure
-p = figure(title='Minimum Deviation', x_axis_label='x', y_axis_label='Deviation')
+# Plot the minimum deviation graph
+p.line(x, [min_deviation] * len(x), line_width=2)
 
-# Add a line plot for the deviation
-p.line(x, deviation, line_width=2)
-
-# Show the Bokeh figure
+# Display the plot
+output_notebook()
 show(p)
+
+
+
 
 
 
