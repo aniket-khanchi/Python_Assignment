@@ -69,8 +69,8 @@ class Graph:
                 
                 p = figure(title=f'Plot train_{train_column} vs ideal_{ideal_column}', width=500, height=350)
                 
-                p.scatter(train_tmp_df['x'], train_tmp_df['y'], marker='square', size=8, line_color='blue')
-                p.scatter(ideal_tmp_df['x'], ideal_tmp_df['y'], marker='circle', size=8, line_color='yellow')
+                p.scatter(train_tmp_df['x'], train_tmp_df['y'], marker='circle', size=8, color='red')
+                p.line(ideal_tmp_df['x'], ideal_tmp_df['y'],line_width=2, line_color='blue')
 
                 min_dev_plots.append(p)
 

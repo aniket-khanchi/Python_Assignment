@@ -35,32 +35,32 @@ class Regression:
 
             return line_eqn_para_df
 
-    def least_squares(self,ideal_df,test_df):              #change this at later some point of time
+    def least_squares(self,ideal_df,train_df):              #change this at later some point of time
         """
         This function will calculate the lease square method
         """
         #iterate over training functions to the find the matching ideal function
         least_squares_dict = {}
-        test_line_eqn_para = self.line_eqn_para(test_df)
-        for function in test_line_eqn_para:
-            intercept = test_line_eqn_para.loc['Intercept', function]
-            slope = test_line_eqn_para.loc['Slope', function]
+        for function in train_df.columns[:]:
+            if function != 'x':
+            # intercept = test_line_eqn_para.loc['Intercept', function]
+            # slope = test_line_eqn_para.loc['Slope', function]
 
-            ideal_least_square_dict = {}
-            for col_name in ideal_df.columns[:]:
-                least_square_df = pd.DataFrame() 
-                least_square_df['x'] = ideal_df['x']
-                if col_name != 'x':
-                    least_square = 0
-                    least_square_df['y_actual'] = ideal_df[col_name]
-                    least_square_df['y_predicted'] = (least_square_df['x'] * slope) + intercept
-                    least_square_df['Residual_err'] = least_square_df['y_actual'] - least_square_df['y_predicted']
-                    least_square_df['Residual_err_square'] = least_square_df['Residual_err'] * least_square_df['Residual_err']
-                    least_square = least_square_df['Residual_err_square'].sum()
-                    Mean_least_square = least_square/len(least_square_df['y_actual'])
-                    Root_mean_square_error = math.sqrt(Mean_least_square)
-                    ideal_least_square_dict[col_name] = Root_mean_square_error
-            least_squares_dict[function] = ideal_least_square_dict
+                ideal_least_square_dict = {}
+                for col_name in ideal_df.columns[:]:
+                    least_square_df = pd.DataFrame() 
+                    least_square_df['x'] = ideal_df['x']
+                    if col_name != 'x':
+                        least_square = 0
+                        least_square_df['y_ideal'] = ideal_df[col_name]
+                        least_square_df['y_train'] = train_df[function]
+                        least_square_df['Residual_err'] = least_square_df['y_ideal'] - least_square_df['y_train']
+                        least_square_df['Residual_err_square'] = least_square_df['Residual_err'] * least_square_df['Residual_err']
+                        least_square = least_square_df['Residual_err_square'].sum()
+                        Mean_least_square = least_square/len(least_square_df['y_ideal'])
+                        Root_mean_square_error = math.sqrt(Mean_least_square)
+                        ideal_least_square_dict[col_name] = Root_mean_square_error
+                least_squares_dict[function] = ideal_least_square_dict
 
         return least_squares_dict
 
@@ -127,8 +127,9 @@ class Regression:
             self.max_deviation_df[ideal_column_y] = self.ideal_df[ideal_column_y]
             # calculate 'Y' best fit line using slope and intercept from train dataset
             self.max_deviation_df['y(bestfit)']   = (train_line_eq['Slope'] * self.train_df['x']) + train_line_eq['Intercept']
+
             # calculate deviation/ difference of best fit line(train data) and ideal dataset pair
-            self.max_deviation_df['deviation']    =  round(abs( self.ideal_df[ideal_column_y] - self.max_deviation_df['y(bestfit)']),4)
+            self.max_deviation_df['deviation']    =  round(abs( self.ideal_df[ideal_column_y] - self.train_df[train_column_y]),4)
             #calculate max deviation from list of deviation
             max_deviation = self.max_deviation_df['deviation'].max()
             #rounding off to 4 decimal point
