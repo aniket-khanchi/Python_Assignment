@@ -58,12 +58,16 @@ if __name__ == '__main__':
     # calculate the max deviation for ideal dataset with respect to train dataset
     max_deviation_train_ideal_dict = Reg.max_deviation_train_ideal_data(best_fit_line_dict,line_equ_train_data_dict)
     print(max_deviation_train_ideal_dict)
-    # {'y1': {'y42': 0.8249}, 'y2': {'y44': 0.0764}, 'y3': {'y21': 4514.0375}, 'y4': {'y3': 1.5463}}
+    # {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
     #validate the test data with in range of max deviation
     map_test_dataset_dict = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
     print(map_test_dataset_dict)
+
+
+    df_map = pd.DataFrame(map_test_dataset_dict)
+    print(df_map)
         #Map the test data in chart
-    # chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict,mapping_chart_save_path)
+    # chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict)
 
 
 

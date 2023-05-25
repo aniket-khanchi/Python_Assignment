@@ -213,41 +213,78 @@
 # # Show the Bokeh figure
 # show(p)
 
-import numpy as np
+# import numpy as np
+# from bokeh.plotting import figure, show
+# from bokeh.io import output_notebook
+
+# def minimum_deviation(x, y1, y2):
+#     # Convert lists to NumPy arrays
+#     y1 = np.array(y1)
+#     y2 = np.array(y2)
+    
+#     # Calculate the absolute difference between y1 and y2
+#     deviation = np.abs(y1 - y2)
+    
+#     # Find the minimum deviation for each x value
+#     min_deviation = np.min(deviation)
+    
+#     return min_deviation
+
+# # Example data
+# x = [1, 2, 3, 4, 5]  # x-axis values
+# y1 = [1, 4, 9, 16, 25]  # y-axis values for function 1
+# y2 = [2, 3, 8, 15, 24]  # y-axis values for function 2
+
+# # Calculate the minimum deviation
+# min_deviation = minimum_deviation(x, y1, y2)
+
+# # Create a figure
+# p = figure(title='Minimum Deviation Graph', x_axis_label='x', y_axis_label='Minimum Deviation')
+
+# # Plot the minimum deviation graph
+# p.line(x, [min_deviation] * len(x), line_width=2)
+
+# # Display the plot
+# output_notebook()
+# show(p)
+
 from bokeh.plotting import figure, show
-from bokeh.io import output_notebook
+from bokeh.models import Span
 
-def minimum_deviation(x, y1, y2):
-    # Convert lists to NumPy arrays
-    y1 = np.array(y1)
-    y2 = np.array(y2)
-    
-    # Calculate the absolute difference between y1 and y2
-    deviation = np.abs(y1 - y2)
-    
-    # Find the minimum deviation for each x value
-    min_deviation = np.min(deviation)
-    
-    return min_deviation
+def generate_max_deviation_graph(data_points, reference_value):
+    # Calculate the deviation for each data point
+    deviations = [data_point - reference_value for data_point in data_points]
 
-# Example data
-x = [1, 2, 3, 4, 5]  # x-axis values
-y1 = [1, 4, 9, 16, 25]  # y-axis values for function 1
-y2 = [2, 3, 8, 15, 24]  # y-axis values for function 2
+    # Find the index of the maximum deviation
+    max_deviation_index = deviations.index(max(deviations))
 
-# Calculate the minimum deviation
-min_deviation = minimum_deviation(x, y1, y2)
+    # Convert range to a list
+    x_data_points = list(range(len(data_points)))
 
-# Create a figure
-p = figure(title='Minimum Deviation Graph', x_axis_label='x', y_axis_label='Minimum Deviation')
+    # Create a Bokeh figure
+    p = figure(title="Maximum Deviation Graph", x_axis_label="Data Points", y_axis_label="Deviation")
 
-# Plot the minimum deviation graph
-p.line(x, [min_deviation] * len(x), line_width=2)
+    # Plot the data points
+    p.circle(x_data_points, deviations, size=8, color="blue")
 
-# Display the plot
-output_notebook()
-show(p)
+    # Highlight the maximum deviation
+    max_deviation = Span(dimension="height", line_color="red", line_dash="dashed", line_width=2, line_alpha=0.7, location=max_deviation_index)
+    p.add_layout(max_deviation)
 
+    # Display the graph
+    show(p)
+
+# Example usage
+data_points = [10, 15, 12, 18, 14, 20]
+reference_value = 15
+
+generate_max_deviation_graph(data_points, reference_value)
+
+
+{'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
+{'y1_y42': {8.7: {'x': 8.7, 'y': -17.40402, 'ideal_column': 'y42', 'y_upperband': -16.67437, 'y_lowerband': -18.081770000000002}, 0.4: {'x': 0.4, 'y': -0.4778523, 'ideal_column': 'y42', 'y_upperband': -0.07354000000000005, 'y_lowerband': -1.48094}, 2.6: {'x': 2.6, 'y': -4.922625, 'ideal_column': 'y42', 'y_upperband': -4.47376, 'y_lowerband': -5.881160000000001}, 6.0: {'x': 6.0, 'y': -11.68606, 'ideal_column': 'y42', 'y_upperband': -11.274100000000002, 'y_lowerband': -12.681500000000002}, -13.9: {'x': -13.9, 'y': 27.935085, 'ideal_column': 'y42', 'y_upperband': 28.527890000000006, 'y_lowerband': 27.120490000000004}, 12.5: {'x': 12.5, 'y': -25.196226, 'ideal_column': 'y42', 'y_upperband': -24.27475, 'y_lowerband': -25.682150000000004}, 16.1: {'x': 16.1, 'y': -31.634138, 'ideal_column': 'y42', 'y_upperband': -31.47511000000001, 'y_lowerband': -32.88251000000001}, -12.6: {'x': -12.6, 'y': 24.758558, 'ideal_column': 'y42', 'y_upperband': 25.927760000000003, 'y_lowerband': 24.52036}, -3.6: {'x': -3.6, 'y': 7.3199873, 'ideal_column': 'y42', 'y_upperband': 7.926860000000001, 'y_lowerband': 6.5194600000000005}, 8.9: {'x': 8.9, 'y': -17.187662, 'ideal_column': 'y42', 'y_upperband': -17.07439, 'y_lowerband': -18.481790000000004}}
+ , 'y2_y35': {-1.7: {'x': -1.7, 'y': 0.3718966, 'ideal_column': 'y35', 'y_upperband': 0.71186, 'y_lowerband': -0.69934}, 0.4: {'x': 0.4, 'y': -0.4778523, 'ideal_column': 'y35', 'y_upperband': 0.70388, 'y_lowerband': -0.7073200000000001}, 10.2: {'x': 10.2, 'y': 0.57523173, 'ideal_column': 'y35', 'y_upperband': 0.66664, 'y_lowerband': -0.74456}, -10.8: {'x': -10.8, 'y': -0.5637138, 'ideal_column': 'y35', 'y_upperband': 0.74644, 'y_lowerband': -0.66476}}, 'y3_y21': {}, 'y4_y31': {-4.7: {'x': -4.7, 'y': 10.2372875, 'ideal_column': 'y31', 'y_upperband': 10.719660000000001, 'y_lowerband': 9.315660000000001}, -10.5: {'x': -10.5, 'y': 
+10.654169, 'ideal_column': 'y31', 'y_upperband': 10.7417, 'y_lowerband': 9.3377}, 11.6: {'x': 11.6, 'y': 10.605287, 'ideal_column': 'y31', 'y_upperband': 10.657720000000001, 'y_lowerband': 9.253720000000001}, 19.5: {'x': 19.5, 'y': 10.450922, 'ideal_column': 'y31', 'y_upperband': 10.6277, 'y_lowerband': 9.223700000000001}}}
 
 
 

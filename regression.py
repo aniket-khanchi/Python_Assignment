@@ -143,7 +143,7 @@ class Regression:
         """
         mapping_test_data_dict = {}
         #iterate for dict of max deviation
-        #max_deviation_train_ideal_dict : {'y1': {'y40': 373.8001}, 'y2': {'y44': 0.0687}, 'y3': {'y3': 1.5206}, 'y4': {'y44': 0.0597}}
+        #max_deviation_train_ideal_dict : {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
         for max_deviation_idx in max_deviation_train_ideal_dict:
             #iterate for all the selcted ideal dataset 
             for ideal_col_y_idx in (max_deviation_train_ideal_dict[max_deviation_idx]):
