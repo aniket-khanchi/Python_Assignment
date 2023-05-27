@@ -61,13 +61,13 @@ if __name__ == '__main__':
     # {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
     #validate the test data with in range of max deviation
     map_test_dataset_dict = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
-    print(map_test_dataset_dict)
+    print(len(map_test_dataset_dict))
 
 
-    df_map = pd.DataFrame(map_test_dataset_dict)
-    print(df_map)
+    # df_map = pd.DataFrame(map_test_dataset_dict)
+    # print(df_map)
         #Map the test data in chart
-    # chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict)
+    chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict)
 
 
 

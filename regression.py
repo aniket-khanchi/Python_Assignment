@@ -167,8 +167,8 @@ class Regression:
                 # generate best fit line with ideal function
                 max_deviation_mapper_df['y_bestfit'] = (ideal_slope*self.ideal_df['x']) + ideal_intercept
                 #create upper and lower band with support of max deviation
-                max_deviation_mapper_df['y_upperband'] = max_deviation_mapper_df['y_bestfit'] + max_deviation
-                max_deviation_mapper_df['y_lowerband'] = max_deviation_mapper_df['y_bestfit'] - max_deviation
+                max_deviation_mapper_df['y_upperband'] = max_deviation_mapper_df[ideal_col_y] + max_deviation
+                max_deviation_mapper_df['y_lowerband'] = max_deviation_mapper_df[ideal_col_y] - max_deviation
                 
                 max_deviation_mapper_df.set_index('x', inplace = True)
                 

@@ -152,25 +152,29 @@ class Graph:
                 ideal_slope, ideal_intercept, r_value, p_value, std_err = stats.linregress( df['x'], df['y'])
      
                 #generate best fit line for ideal function
-                df['y_bestfit'] = (ideal_slope * df['x']) + ideal_intercept
+                # df['y_bestfit'] = (ideal_slope * df['x']) + ideal_intercept
+                df['y_bestfit'] = df['y']
                 #dataframe for upper and lower band
                 df['y_upperband'] = df['y_bestfit'] + max_deviation
                 df['y_lowerband'] = df['y_bestfit'] - max_deviation
                 
-                source = ColumnDataSource(df.reset_index())
-                #create tool feature
-                TOOLS = "pan,box_zoom,reset,save,zoom_out,zoom_in"
+                # Create a Bokeh figure
+                p = figure(title="Deviation", x_axis_label="X", y_axis_label="Y")
+
+                # Plot the upper and lower bands
+                p.line(df['x'], df['y_upperband'], line_color="blue", line_width=2, legend_label="Upper Band")
+                p.line(df['x'], df['y_lowerband'], line_color="red", line_width=2, legend_label="Lower Band")
+
+                # Create a shaded region between the upper and lower bands
+                p.varea(x=df['x'], y1=df['y_upperband'], y2=df['y_lowerband'], fill_color="gray", fill_alpha=0.5)
                 
-                #init graph with dimension
-                p = figure(sizing_mode="stretch_width", max_width=500, height=500,tools=TOOLS)
                 #create scatter plot
-                p.scatter(x='x', y='y_bestfit', line_color=None, fill_alpha=0.5, size=5, source=source)
+                p.scatter(x=df['x'], y=df['y_bestfit'], line_color=None, fill_alpha=0.5, size=5, )
                 #create upper and lowe band
-                band = Band(base='x', lower='y_lowerband', upper='y_upperband', source=source, level='underlay',
-                    fill_alpha=1.0, line_width=1, line_color='black')
+                # band = Band(base=df['x'], lower=df['y_lowerband'], upper=df['y_upperband'],  level='underlay',fill_alpha=1.0, line_width=1, line_color='black')
                 
                 #graph features 
-                p.add_layout(band)
+                # p.add_layout(band)
                 p.title.text = f"x vs {ideal_col_y}, max deviation :{max_deviation}"
                 p.xgrid[0].grid_line_color=None
                 p.ygrid[0].grid_line_alpha=0.5
