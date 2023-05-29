@@ -5,6 +5,7 @@ import pandas as pd
 from function_inventory import DataframeFunction
 from regression import Regression
 from data_visualization import Graph
+from data_db import add_table
 import sys
 # from loss_function import squared_error, minimise_loss, find_classification
 
@@ -57,17 +58,29 @@ if __name__ == '__main__':
     
     # calculate the max deviation for ideal dataset with respect to train dataset
     max_deviation_train_ideal_dict = Reg.max_deviation_train_ideal_data(best_fit_line_dict,line_equ_train_data_dict)
-    print(max_deviation_train_ideal_dict)
+    # print(max_deviation_train_ideal_dict)
     # {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
     #validate the test data with in range of max deviation
     map_test_dataset_dict = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
     print(len(map_test_dataset_dict))
 
-
+    # def map_dataframe(map_test_dataset_dict):
     # df_map = pd.DataFrame(map_test_dataset_dict)
-    # print(df_map)
+    # for column in df_map:
+    #     print(column)
+    #     non_na = df_map[column].dropna()
+    #     print(type(non_na))
+    #     for i in range(1,len(non_na)):
+    #         print(non_na[i])
+
+  
         #Map the test data in chart
     chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict)
+
+    # Loading the data into database
+    # add_table(train._df,table_name = 'train_data', if_exists='replace', index=False)
+    # add_table(ideal._df,table_name = 'ideal_data', if_exists='replace', index=False)
+    # add_table(df_map,table_name = 'map_data')
 
 
 

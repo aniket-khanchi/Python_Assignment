@@ -36,7 +36,7 @@ class Graph:
 
         grid = gridplot([[plots[0], plots[1]], [plots[2], plots[3]]])
         
-        show(grid)
+        # show(grid)
 
         # create name for save html file
         chart_filename = "output/" + str(df_name) + ".html"
@@ -191,7 +191,7 @@ class Graph:
                 output_file(filename=chart_filename, title=file_header )
                 #show the graph in browser.    
                 try:  
-                    show(row(p)) 
+                    # show(row(p)) 
                     pass
                 except Exception as _error:
                     print(f"Error: GRAPH GENERATED UNSUCCESSFUL: {_error}")
