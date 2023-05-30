@@ -7,7 +7,6 @@ from regression import Regression
 from data_visualization import Graph
 from data_db import add_table
 import sys
-# from loss_function import squared_error, minimise_loss, find_classification
 
 
 if __name__ == '__main__':
@@ -22,27 +21,19 @@ if __name__ == '__main__':
     train = DataframeFunction(train_csv)
     ideal = DataframeFunction(ideal_csv)
 
-    # print(line_eqn_para(train._df).head())
     Reg = Regression(train=train._df,test=test._df,ideal=ideal._df)
     chart = Graph(train=train._df,test=test._df,ideal=ideal._df)
 
-
-    
     dic = Reg.least_squares(ideal._df,train._df)
-    # print(line_equ_train_data_df)
-    # print(dic)
-    
-    
+        
     best_fit_line_dict = Reg.best_fit_line_ideal_func(dic)
-    # print(best_fit_line_dict)
     # {'y1': {'y42': 0.28961785540842777}, 'y2': {'y35': 0.29744511136874047}, 'y3': {'y21': 0.2825502509243733}, 'y4': {'y31': 0.2971635951370235}}
     
     line_equ_train_data_df = Reg.line_eqn_para(train._df)
     line_equ_train_data_dict = line_equ_train_data_df.to_dict()
     line_qeu_ideal_data_df = Reg.line_eqn_para(ideal._df)
     line_equ_ideal_data_dict = line_qeu_ideal_data_df.to_dict()
-    # print(line_equ_ideal_data_dict)
-    # sys.exit()
+   
     # train_chart_df = chart.line_chart(train._df,line_equ_train_data_dict,'train')
     ideal_fn_df  =  pd.DataFrame()
     ideal_fn_df['x'] = ideal._df['x']
@@ -61,26 +52,21 @@ if __name__ == '__main__':
     # print(max_deviation_train_ideal_dict)
     # {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
     #validate the test data with in range of max deviation
-    map_test_dataset_dict = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
-    print(len(map_test_dataset_dict))
+    map_test_dataset_dict,df_ls = Reg.validate_max_deviation_test_data(max_deviation_train_ideal_dict)
 
-    # def map_dataframe(map_test_dataset_dict):
-    # df_map = pd.DataFrame(map_test_dataset_dict)
-    # for column in df_map:
-    #     print(column)
-    #     non_na = df_map[column].dropna()
-    #     print(type(non_na))
-    #     for i in range(1,len(non_na)):
-    #         print(non_na[i])
+    df_map = pd.DataFrame()
+    for row in df_ls:
+        df_map= df_map._append(row, ignore_index=True)
 
-  
-        #Map the test data in chart
+    fin_map_df = Reg.create_map_df(df_map,test._df,ideal._df)
+
+    #Map the test data in chart
     chart.generate_map_test_data_chart(map_test_dataset_dict,max_deviation_train_ideal_dict)
 
     # Loading the data into database
-    # add_table(train._df,table_name = 'train_data', if_exists='replace', index=False)
-    # add_table(ideal._df,table_name = 'ideal_data', if_exists='replace', index=False)
-    # add_table(df_map,table_name = 'map_data')
+    add_table(train._df,table_name = 'train_data' )
+    add_table(ideal._df,table_name = 'ideal_data')
+    add_table(fin_map_df,table_name = 'map_data' )
 
 
 

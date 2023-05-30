@@ -141,6 +141,7 @@ class Regression:
         """
         function calclates the test data within the range of max deviation 
         """
+        map_df_list = []
         mapping_test_data_dict = {}
         #iterate for dict of max deviation
         #max_deviation_train_ideal_dict : {'y1': {'y42': 0.7037}, 'y2': {'y35': 0.7056}, 'y3': {'y21': 0.7027}, 'y4': {'y31': 0.702}}
@@ -186,12 +187,31 @@ class Regression:
                         mapping_data_point_dict["y_upperband"] = ideal_data['y_upperband']
                         mapping_data_point_dict["y_lowerband"] = ideal_data['y_lowerband']
                         #create a dict of test data with in range of max deviation
+                        map_df_list.append(mapping_data_point_dict)
                         mapping_data_set_dict[x_index] = mapping_data_point_dict
             #dict of all the test data point for all ideal functions
             mapping_test_data_dict[max_deviation_idx+"_"+ideal_col_y_idx] = mapping_data_set_dict
                 
-        return mapping_test_data_dict
-
+        return mapping_test_data_dict, map_df_list
+    
+    def create_map_df(self,map_df,test_df,ideal_df):
+        """
+        create a dataframe of all the test data point for ideal functions
+        """
+        col = {'x (test)':[],'y (test)':[],'delta_y':[],'ideal_column':[]}
+        fin_map_df = pd.DataFrame(columns=col)
+        fin_map_df['x (test)'] = test_df['x']
+        fin_map_df['y (test)'] = test_df['y']
+        for rows in map_df.iterrows():
+            x = rows[1]['x']
+            y = rows[1]['y']
+            y_ideal = rows[1]['ideal_column']
+            y_ideal_value = ideal_df.loc[ideal_df['x'] == x, y_ideal].values[0]
+            delta_y = y - y_ideal_value
+            # Add the new row at the specific value of x
+            fin_map_df.loc[fin_map_df['x (test)'] == x, ['x (test)','y (test)','delta_y','ideal_column']] = [x, y, delta_y, y_ideal]
+        
+        return fin_map_df
 
 
 
