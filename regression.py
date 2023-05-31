@@ -35,7 +35,7 @@ class Regression:
 
             return line_eqn_para_df
 
-    def least_squares(self,ideal_df,train_df):              #change this at later some point of time
+    def least_squares(self,ideal_df,train_df):             
         """
         This function will calculate the lease square method
         """
@@ -43,8 +43,6 @@ class Regression:
         least_squares_dict = {}
         for function in train_df.columns[:]:
             if function != 'x':
-            # intercept = test_line_eqn_para.loc['Intercept', function]
-            # slope = test_line_eqn_para.loc['Slope', function]
 
                 ideal_least_square_dict = {}
                 for col_name in ideal_df.columns[:]:
@@ -81,14 +79,14 @@ class Regression:
 
             return best_fit_line
 
-    def max_deviation_train_ideal_data(self,best_fit_line_dict,line_equ_train_data_dict):
+    def max_deviation_train_ideal_data(self,best_fit_line_dict):
             """
             calculate max deviation in ideal dataset 
             """
             #save dict of max deviation
             max_deviation_train_ideal_dict = {}
             #iterate for ideal test dataset which has a match in train dataset
-            #best_fit_line_dict :{'y1': {'y40': 119.1491}, 'y2': {'y44': 0.0249}, 'y3': {'y3': 0.7004}, 'y4': {'y44': 0.0221}}
+            #best_fit_line_dict :{'y1': {'y42': 0.28961785540842777}, 'y2': {'y35': 0.29744511136874047}, 'y3': {'y21': 0.2825502509243733}, 'y4': {'y31': 0.2971635951370235}}
             for train_y_idx in best_fit_line_dict:
                 #copy selected train colunm for each iteration
                 train_column_y = train_y_idx
@@ -96,38 +94,30 @@ class Regression:
                 for ideal_y_idx in best_fit_line_dict[train_y_idx]:
                     max_deviation_dict = {}
                     #copy selected ideal colunm w.r.t given train column
-                    ideal_column_y = ideal_y_idx
-                    #copy respective train data line equation 
-                    #{'intercept': 233.28429, 'slope': -20.099, 'r_value': -0.8895, 'p_value': 1.598e-137, 'std_err': 0.517}
-                    train_line_eq = line_equ_train_data_dict[train_column_y]
-                    
+                    ideal_column_y = ideal_y_idx                 
                     #calculate max deviation for the given train and ideal dataset
-                    max_deviation = self.max_deviation_calc(train_column_y,ideal_column_y,train_line_eq)
+                    max_deviation = self.cal_max_deviation(train_column_y,ideal_column_y)
                     #calculate final max deviation by multiply square root with priviously calculate max deviation 
                     max_deviation_train_ideal = max_deviation * math.sqrt(2)
                     #rounding off to 4 decimal points
                     max_deviation_dict[ideal_y_idx] = round(max_deviation_train_ideal,4)
                     #create a dict of max deviation for respective selected ideal dataset
                     max_deviation_train_ideal_dict[train_column_y] = max_deviation_dict
-            
+
             return max_deviation_train_ideal_dict
 
-    def max_deviation_calc(self,train_column_y,ideal_column_y,train_line_eq):
+    def cal_max_deviation(self,train_column_y,ideal_column_y):
             """
             calculate max deviation between ideal and train dataset
             """
             #create init max deviation dataframe
             self.max_deviation_df = pd.DataFrame()
             #copy independent variable data from 'X' column from train dataset
-            
             self.max_deviation_df['x'] = self.train_df['x']
             #copy dependent variable data from 'Y' train dataset
             self.max_deviation_df[train_column_y] = self.train_df[train_column_y]
             #copy dependent variable data from 'Y' ideal dataset
             self.max_deviation_df[ideal_column_y] = self.ideal_df[ideal_column_y]
-            # calculate 'Y' best fit line using slope and intercept from train dataset
-            self.max_deviation_df['y(bestfit)']   = (train_line_eq['Slope'] * self.train_df['x']) + train_line_eq['Intercept']
-
             # calculate deviation/ difference of best fit line(train data) and ideal dataset pair
             self.max_deviation_df['deviation']    =  round(abs( self.ideal_df[ideal_column_y] - self.train_df[train_column_y]),4)
             #calculate max deviation from list of deviation
@@ -152,25 +142,15 @@ class Regression:
                 ideal_col_y = ideal_col_y_idx
                 # copy max deviation
                 max_deviation = max_deviation_train_ideal_dict[max_deviation_idx][ideal_col_y]
-                
+                # create init dataframe for mapping
                 max_deviation_mapper_df = pd.DataFrame() 
-            
-                ideal_x = self.ideal_df['x'].to_numpy()
-                ideal_y = self.ideal_df[ideal_col_y].to_numpy()
-                #generate all linear regression parmater
-                ideal_slope, ideal_intercept, r_value, p_value, std_err = stats.linregress(ideal_x, ideal_y)
-
-                ideal_intercept = round(ideal_intercept,4)
-                ideal_slope = round(ideal_slope,4)
                 # copy independent and dependent variables
                 max_deviation_mapper_df['x'] = self.ideal_df['x']
                 max_deviation_mapper_df[ideal_col_y] = self.ideal_df[ideal_col_y]
-                # generate best fit line with ideal function
-                max_deviation_mapper_df['y_bestfit'] = (ideal_slope*self.ideal_df['x']) + ideal_intercept
                 #create upper and lower band with support of max deviation
                 max_deviation_mapper_df['y_upperband'] = max_deviation_mapper_df[ideal_col_y] + max_deviation
                 max_deviation_mapper_df['y_lowerband'] = max_deviation_mapper_df[ideal_col_y] - max_deviation
-                
+                # set index as x
                 max_deviation_mapper_df.set_index('x', inplace = True)
                 
                 for index, test_data_row in self.test_df.iterrows():
