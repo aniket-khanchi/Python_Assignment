@@ -71,9 +71,9 @@ class Graph:
                 #Create a figure object
                 p = figure(title=f'Plot train_{train_column} vs ideal_{ideal_column}', width=500, height=350)
                 # Add a scatter plot for train functions to the figure
-                p.scatter(train_tmp_df['x'], train_tmp_df['y'], marker='circle', size=8, color='red')
+                p.scatter(train_tmp_df['x'], train_tmp_df['y'], marker='circle', size=8, color='red',legend_label="Train")
                 # Add a Line plot for ideal functions to the figure
-                p.line(ideal_tmp_df['x'], ideal_tmp_df['y'],line_width=2, line_color='blue')
+                p.line(ideal_tmp_df['x'], ideal_tmp_df['y'],line_width=2, line_color='blue',legend_label="Ideal")
 
                 min_dev_plots.append(p)
         # create grid of plots
