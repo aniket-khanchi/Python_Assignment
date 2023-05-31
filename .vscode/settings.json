@@ -1,0 +1,5 @@
+{
+    "python.linting.enabled": false,
+    "liveServer.settings.port": 5501,
+    "python.analysis.typeCheckingMode": "off"
+}
