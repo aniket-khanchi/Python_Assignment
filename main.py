@@ -38,7 +38,7 @@ if __name__ == '__main__':
     line_equ_ideal_data_dict = line_qeu_ideal_data_df.to_dict()
 
     #Plot the line chart vs scatter plot for train functions
-    # train_chart = chart.line_chart(train._df,line_equ_train_data_dict,'train')
+    train_chart = chart.line_chart(train._df,line_equ_train_data_dict,'train_functions')
 
     #Create the selected ideal function dataframe for chart generation
     ideal_fn_df  =  pd.DataFrame()
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         ideal_fn_df[first_key] = ideal._df[first_key]
     
     #Plot the line chart vs scatter plot for selected ideal functions  Line->ideal, Scatter->train
-    ideal_chart = chart.line_chart(ideal_fn_df,line_equ_ideal_data_dict,'ideal')
+    ideal_chart = chart.line_chart(ideal_fn_df,line_equ_ideal_data_dict,'ideal_functions')
 
     #Plot the line chart vs scatter plot for train functions with respect to ideal functions
     chart.min_deviation_chart(train._df,line_equ_train_data_dict,ideal_fn_df,line_equ_ideal_data_dict)
